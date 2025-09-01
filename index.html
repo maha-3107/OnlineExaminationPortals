@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Professional Online Examination Portal</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #4361ee;
+      --secondary: #3a0ca3;
+      --success: #4cc9f0;
+      --danger: #f72585;
+      --warning: #fca311;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --gray: #6c757d;
+      --light-gray: #e9ecef;
+      --border-radius: 12px;
+      --box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      color: var(--dark);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Header Styles */
+    header {
+      background: var(--primary);
+      color: white;
+      padding: 15px 0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--secondary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+
+    /* Card Styles */
+    .card {
+      background: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      overflow: hidden;
+      transition: var(--transition);
+      margin: 20px 0;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+    }
+
+    .card-header {
+      background: var(--primary);
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .card-body {
+      padding: 25px;
+    }
+
+    /* Button Styles */
+    .btn {
+      display: inline-block;
+      padding: 12px 24px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition);
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(67, 97, 238, 0.2);
+    }
+
+    .btn:hover {
+      background: var(--secondary);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(67, 97, 238, 0.3);
+    }
+
+    .btn-lg {
+      padding: 15px 30px;
+      font-size: 1.1rem;
+    }
+
+    .btn-success {
+      background: var(--success);
+      box-shadow: 0 4px 8px rgba(76, 201, 240, 0.2);
+    }
+
+    .btn-success:hover {
+      background: #3ab7d8;
+      box-shadow: 0 6px 12px rgba(76, 201, 240, 0.3);
+    }
+
+    .btn-danger {
+      background: var(--danger);
+      box-shadow: 0 4px 8px rgba(247, 37, 133, 0.2);
+    }
+
+    .btn-danger:hover {
+      background: #e51278;
+      box-shadow: 0 6px 12px rgba(247, 37, 133, 0.3);
+    }
+
+    /* Form Styles */
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--dark);
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 12px 15px;
+      border: 2px solid var(--light-gray);
+      border-radius: var(--border-radius);
+      font-size: 1rem;
+      transition: var(--transition);
+    }
+
+    .form-control:focus {
+      border-color: var(--primary);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+    }
+
+    /* Dashboard Styles */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+      margin: 30px 0;
+    }
+
+    .welcome-card {
+      text-align: center;
+      padding: 30px;
+    }
+
+    .welcome-icon {
+      font-size: 4rem;
+      color: var(--primary);
+      margin-bottom: 20px;
+    }
+
+    .stats-card {
+      text-align: center;
+      padding: 20px;
+    }
+
+    .stat-value {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin: 10px 0;
+    }
+
+    .stat-label {
+      color: var(--gray);
+      font-weight: 600;
+    }
+
+    /* Exam Styles */
+    .timer-container {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 15px;
+      text-align: center;
+      margin: 20px 0;
+      box-shadow: var(--box-shadow);
+    }
+
+    .timer {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .progress-container {
+      height: 10px;
+      background: var(--light-gray);
+      border-radius: 5px;
+      margin: 15px 0;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: var(--success);
+      border-radius: 5px;
+      transition: width 1s linear;
+    }
+
+    .question {
+      margin-bottom: 30px;
+      padding: 20px;
+      background: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+    }
+
+    .question-text {
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+      font-weight: 600;
+    }
+
+    .options {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .option {
+      display: flex;
+      align-items: center;
+      padding: 15px;
+      background: var(--light);
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .option:hover {
+      background: var(--light-gray);
+    }
+
+    .option input {
+      margin-right: 10px;
+      cursor: pointer;
+    }
+
+    /* Result Styles */
+    .result-card {
+      text-align: center;
+      padding: 40px;
+    }
+
+    .result-icon {
+      font-size: 5rem;
+      color: var(--success);
+      margin-bottom: 20px;
+    }
+
+    .score {
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin: 20px 0;
+    }
+
+    .score-text {
+      font-size: 1.2rem;
+      color: var(--gray);
+      margin-bottom: 30px;
+    }
+
+    /* Login Styles */
+    .login-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .login-card {
+      width: 100%;
+      max-width: 450px;
+    }
+
+    .demo-note {
+      background: #f0f7ff;
+      padding: 15px;
+      border-radius: var(--border-radius);
+      margin-top: 20px;
+      text-align: center;
+      border-left: 4px solid var(--primary);
+    }
+
+    /* Logout Page */
+    .logout-card {
+      text-align: center;
+      padding: 60px 40px;
+    }
+
+    .logout-icon {
+      font-size: 5rem;
+      color: var(--primary);
+      margin-bottom: 30px;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .header-content {
+        flex-direction: column;
+        gap: 15px;
+      }
+      
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .options {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Animation */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-in {
+      animation: fadeIn 0.5s ease forwards;
+    }
+
+    /* Notification */
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 15px 20px;
+      background: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transform: translateX(150%);
+      transition: transform 0.3s ease;
+      z-index: 1000;
+    }
+
+    .notification.show {
+      transform: translateX(0);
+    }
+
+    .notification.success {
+      border-left: 4px solid var(--success);
+    }
+
+    .notification.error {
+      border-left: 4px solid var(--danger);
+    }
+  </style>
+</head>
+<body>
+  <!-- Notification -->
+  <div id="notification" class="notification">
+    <i class="fas fa-check-circle"></i>
+    <span id="notification-text"></span>
+  </div>
+
+  <!-- Login Page -->
+  <div id="login-page" class="page">
+    <div class="login-container">
+      <div class="login-card card fade-in">
+        <div class="card-header">
+          <h1><i class="fas fa-graduation-cap"></i> ExamPro Login</h1>
+        </div>
+        <div class="card-body">
+          <form onsubmit="return loginUser(event)">
+            <div class="form-group">
+              <label for="login-username">Username</label>
+              <input type="text" id="login-username" class="form-control" placeholder="Enter username" required>
+            </div>
+            <div class="form-group">
+              <label for="login-password">Password</label>
+              <input type="password" id="login-password" class="form-control" placeholder="Enter password" required>
+            </div>
+            <button type="submit" class="btn btn-lg" style="width: 100%">
+              <i class="fas fa-sign-in-alt"></i> Login
+            </button>
+          </form>
+          <div class="demo-note">
+            <p>Demo Credentials:</p>
+            <p><b>Username:</b> student1</p>
+            <p><b>Password:</b> pass123</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header (only shown when logged in) -->
+  <header id="main-header" style="display: none;">
+    <div class="container">
+      <div class="header-content">
+        <div class="logo">
+          <i class="fas fa-graduation-cap"></i>
+          <span>ExamPro</span>
+        </div>
+        <div class="user-info">
+          <div class="user-avatar" id="user-avatar">S</div>
+          <span id="user-name">Student</span>
+          <a href="#" onclick="logout()" class="btn btn-danger"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content (only shown when logged in) -->
+  <main class="container" id="main-content" style="display: none;">
+    <!-- Dashboard Page -->
+    <div id="dashboard-page" class="page">
+      <div class="welcome-card card fade-in">
+        <div class="welcome-icon">
+          <i class="fas fa-tachometer-alt"></i>
+        </div>
+        <h2>Welcome, <span id="username">Student</span>!</h2>
+        <p>You are now logged in to your examination dashboard. You can start your mock test below.</p>
+        <a href="#" onclick="showPage('exam-page')" class="btn btn-lg"><i class="fas fa-play-circle"></i> Start Exam</a>
+      </div>
+
+      <div class="dashboard-grid">
+        <div class="stats-card card fade-in">
+          <i class="fas fa-check-circle" style="font-size: 2.5rem; color: var(--success);"></i>
+          <div class="stat-value">85%</div>
+          <div class="stat-label">Average Score</div>
+        </div>
+
+        <div class="stats-card card fade-in">
+          <i class="fas fa-clipboard-list" style="font-size: 2.5rem; color: var(--primary);"></i>
+          <div class="stat-value">12</div>
+          <div class="stat-label">Exams Completed</div>
+        </div>
+
+        <div class="stats-card card fade-in">
+          <i class="fas fa-clock" style="font-size: 2.5rem; color: var(--warning);"></i>
+          <div class="stat-value">24m</div>
+          <div class="stat-label">Average Time</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Exam Page -->
+    <div id="exam-page" class="page" style="display: none;">
+      <div class="timer-container">
+        <h3>Time Remaining</h3>
+        <div class="timer" id="timer">10:00</div>
+        <div class="progress-container">
+          <div class="progress-bar" id="progress-bar"></div>
+        </div>
+        <p>Complete all questions before time runs out!</p>
+      </div>
+
+      <form id="exam-form" class="card">
+        <div class="card-header">
+          <h2>Mock Examination</h2>
+          <p>Answer all questions to complete the exam</p>
+        </div>
+        
+        <div class="card-body">
+          <div id="quiz-container"></div>
+          
+          <div style="text-align: center; margin-top: 30px;">
+            <button type="button" onclick="submitExam()" class="btn btn-lg"><i class="fas fa-paper-plane"></i> Submit Exam</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- Result Page -->
+    <div id="result-page" class="page" style="display: none;">
+      <div class="result-card card fade-in">
+        <div class="result-icon">
+          <i class="fas fa-trophy"></i>
+        </div>
+        <h2>Exam Completed!</h2>
+        <div class="score" id="final-score">0</div>
+        <div class="score-text" id="score-text">You scored 0 out of 5 points</div>
+        <a href="#" onclick="showPage('dashboard-page')" class="btn"><i class="fas fa-home"></i> Back to Dashboard</a>
+        <a href="#" onclick="showPage('exam-page'); resetExam();" class="btn btn-success"><i class="fas fa-redo"></i> Try Again</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Logout Page -->
+  <div id="logout-page" class="page" style="display: none;">
+    <div class="login-container">
+      <div class="logout-card card fade-in">
+        <div class="logout-icon">
+          <i class="fas fa-check-circle"></i>
+        </div>
+        <h2>You have been logged out successfully!</h2>
+        <p>Thank you for using ExamPro. We hope to see you again soon.</p>
+        <div style="margin-top: 30px;">
+          <a href="#" onclick="goToLogin()" class="btn btn-lg"><i class="fas fa-sign-in-alt"></i> Back to Login</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Sample questions
+    const questions = [
+      {
+        q: "Servlets run on the _______.",
+        options: ["Client", "Web Server", "Database", "Browser"],
+        correct: 1
+      },
+      {
+        q: "JDBC is used for _______.",
+        options: ["UI Design", "Styling", "Database connectivity", "Email"],
+        correct: 2
+      },
+      {
+        q: "Which HTTP method is idempotent?",
+        options: ["GET", "POST", "PUT", "DELETE"],
+        correct: 0
+      },
+      {
+        q: "What does CSS stand for?",
+        options: ["Computer Style Sheets", "Creative Style System", "Cascading Style Sheets", "Colorful Style Sheets"],
+        correct: 2
+      },
+      {
+        q: "Which of the following is not a JavaScript framework?",
+        options: ["React", "Angular", "Vue", "Spring"],
+        correct: 3
+      }
+    ];
+
+    // Global variables
+    let timeLeft = 600; // 10 minutes in seconds
+    let timerInterval;
+    let userAnswers = Array(questions.length).fill(null);
+
+    // Initialize the application
+    document.addEventListener('DOMContentLoaded', function() {
+      // Check if user is logged in
+      const user = localStorage.getItem("user");
+      if (user) {
+        showApp(user);
+      } else {
+        showLogin();
+      }
+    });
+
+    // Show login page
+    function showLogin() {
+      document.getElementById('login-page').style.display = 'block';
+      document.getElementById('main-header').style.display = 'none';
+      document.getElementById('main-content').style.display = 'none';
+      document.getElementById('logout-page').style.display = 'none';
+    }
+
+    // Show the application (when logged in)
+    function showApp(user) {
+      document.getElementById('login-page').style.display = 'none';
+      document.getElementById('main-header').style.display = 'flex';
+      document.getElementById('main-content').style.display = 'block';
+      document.getElementById('logout-page').style.display = 'none';
+      
+      // Set user information
+      document.getElementById('username').textContent = user;
+      document.getElementById('user-name').textContent = user;
+      document.getElementById('user-avatar').textContent = user.charAt(0).toUpperCase();
+      
+      // Load dashboard
+      showPage('dashboard-page');
+    }
+
+    // Show logout page
+    function showLogoutPage() {
+      document.getElementById('login-page').style.display = 'none';
+      document.getElementById('main-header').style.display = 'none';
+      document.getElementById('main-content').style.display = 'none';
+      document.getElementById('logout-page').style.display = 'block';
+    }
+
+    // Go to login page from logout page
+    function goToLogin() {
+      showLogin();
+    }
+
+    // Login function
+    function loginUser(event) {
+      event.preventDefault();
+      const username = document.getElementById('login-username').value;
+      const password = document.getElementById('login-password').value;
+      
+      if (username === 'student1' && password === 'pass123') {
+        localStorage.setItem('user', username);
+        showApp(username);
+        showNotification('Login successful! Welcome to ExamPro');
+      } else {
+        showNotification('Invalid credentials. Please try student1/pass123', 'error');
+      }
+      return false;
+    }
+
+    // Show a specific page and hide others
+    function showPage(pageId) {
+      document.querySelectorAll('.page').forEach(page => {
+        if (page.id !== 'login-page' && page.id !== 'logout-page') {
+          page.style.display = 'none';
+        }
+      });
+      document.getElementById(pageId).style.display = 'block';
+      
+      if (pageId === 'exam-page') {
+        startExam();
+      }
+    }
+
+    // Start the exam
+    function startExam() {
+      // Reset timer and answers
+      timeLeft = 600;
+      userAnswers = Array(questions.length).fill(null);
+      
+      // Load questions
+      loadQuestions();
+      
+      // Start timer
+      clearInterval(timerInterval);
+      timerInterval = setInterval(updateTimer, 1000);
+      updateTimer(); // Initial update
+    }
+
+    // Reset the exam
+    function resetExam() {
+      startExam();
+    }
+
+    // Update the timer
+    function updateTimer() {
+      const minutes = Math.floor(timeLeft / 60);
+      const seconds = timeLeft % 60;
+      
+      document.getElementById('timer').textContent = 
+        `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      
+      // Update progress bar
+      const progressPercent = (timeLeft / 600) * 100;
+      document.getElementById('progress-bar').style.width = `${progressPercent}%`;
+      
+      // Change color when time is running out
+      if (timeLeft < 60) {
+        document.getElementById('progress-bar').style.background = 'var(--danger)';
+      }
+      
+      timeLeft--;
+      
+      if (timeLeft < 0) {
+        clearInterval(timerInterval);
+        submitExam();
+      }
+    }
+
+    // Load questions into the quiz container
+    function loadQuestions() {
+      const quizContainer = document.getElementById('quiz-container');
+      quizContainer.innerHTML = '';
+      
+      questions.forEach((question, index) => {
+        const questionElement = document.createElement('div');
+        questionElement.className = 'question';
+        questionElement.innerHTML = `
+          <div class="question-text">${index + 1}. ${question.q}</div>
+          <div class="options">
+            ${question.options.map((option, optionIndex) => `
+              <label class="option">
+                <input type="radio" name="q${index}" value="${optionIndex}" 
+                  ${userAnswers[index] === optionIndex ? 'checked' : ''}
+                  onchange="saveAnswer(${index}, ${optionIndex})">
+                ${option}
+              </label>
+            `).join('')}
+          </div>
+        `;
+        
+        quizContainer.appendChild(questionElement);
+      });
+    }
+
+    // Save user's answer
+    function saveAnswer(questionIndex, answerIndex) {
+      userAnswers[questionIndex] = answerIndex;
+    }
+
+    // Submit the exam
+    function submitExam() {
+      clearInterval(timerInterval);
+      
+      // Calculate score
+      let score = 0;
+      questions.forEach((question, index) => {
+        if (userAnswers[index] === question.correct) {
+          score++;
+        }
+      });
+      
+      // Save score and show result
+      localStorage.setItem("score", score);
+      showResult(score);
+    }
+
+    // Show exam result
+    function showResult(score) {
+      const finalScoreElement = document.getElementById('final-score');
+      const scoreTextElement = document.getElementById('score-text');
+      
+      finalScoreElement.textContent = `${score}/${questions.length}`;
+      scoreTextElement.textContent = `You scored ${score} out of ${questions.length} points`;
+      
+      // Add some encouraging text based on score
+      let encouragement = "";
+      if (score === questions.length) {
+        encouragement = "Perfect score! Amazing job!";
+      } else if (score >= questions.length * 0.7) {
+        encouragement = "Great job! You're doing well!";
+      } else if (score >= questions.length * 0.5) {
+        encouragement = "Good effort! Keep practicing!";
+      } else {
+        encouragement = "Keep studying and try again!";
+      }
+      
+      scoreTextElement.textContent += `. ${encouragement}`;
+      
+      showPage('result-page');
+    }
+
+    // Show notification
+    function showNotification(message, type = 'success') {
+      const notification = document.getElementById('notification');
+      const notificationText = document.getElementById('notification-text');
+      
+      notificationText.textContent = message;
+      notification.className = `notification ${type}`;
+      notification.classList.add('show');
+      
+      // Hide after 3 seconds
+      setTimeout(() => {
+        notification.classList.remove('show');
+      }, 3000);
+    }
+
+    // Logout function
+    function logout() {
+      localStorage.clear();
+      showLogoutPage();
+    }
+  </script>
+</body>
+</html>
